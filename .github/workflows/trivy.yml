@@ -1,0 +1,29 @@
+name: Run Trivy vulnerability scanner
+
+on:
+  push:
+  schedule:
+    - cron: '0 8 * * *'  # runs daily at 8h UTC
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build wis2box-minio:test Docker image
+        run: |
+          docker build -t wis2box-minio:test -f Dockerfile.local --build-arg RELEASE=local-build-test .
+      - name: Run Trivy vulnerability scanner on wis2box-minio image
+        if: always()
+        uses: aquasecurity/trivy-action@0.35.0
+        env:
+          TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db:2
+          TRIVY_JAVA_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-java-db:1
+        with:
+          image-ref: 'wis2box-minio:test'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
