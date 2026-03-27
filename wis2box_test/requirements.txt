@@ -1,0 +1,4 @@
+paho-mqtt<2
+pytest
+requests
+paramiko

@@ -1,0 +1,1 @@
+This is just some random data that will be uploaded over SFTP as part of the integration tests for the wis2box-minio project.

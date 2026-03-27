@@ -1,0 +1,101 @@
+services:
+  wis2box-api:
+    container_name: minio-test-wis2box-api
+    env_file:
+      - test.env
+    image: ghcr.io/world-meteorological-organization/wis2box-api:1.2.0
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/oapi/admin/resources"]
+      interval: 5s
+      retries: 100
+    ports:
+      - "4100:80"
+    volumes:
+      - ./tests/data/mappings:/data/wis2box/mappings
+
+  minio:
+    container_name: minio-test-wis2box-minio
+    image: wis2box-minio:test
+    mem_limit: 768m
+    memswap_limit: 768m
+    restart: always
+    env_file:
+      - test.env
+    command: server --console-address ":9001" --sftp="address=:8022" --sftp="ssh-private-key=/home/miniouser/.ssh/id_rsa" /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 1s
+      retries: 3
+    depends_on:
+      mosquitto:
+        condition: service_started
+    ports:
+      - "4001:9001"
+      - "4000:9000"
+      - "4022:8022"
+    volumes:
+      - ./tests/data/.ssh:/home/miniouser/.ssh:ro
+
+  wis2box-management:
+    container_name: minio-test-wis2box-management
+    mem_limit: 1g
+    memswap_limit: 1g
+    restart: always
+    image: ghcr.io/world-meteorological-organization/wis2box-management:1.2.0
+    env_file:
+      - test.env
+    volumes:
+      - ./tests/data:/data/wis2box:rw
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+      wis2box-api:
+        condition: service_healthy
+    command: ["wis2box", "pubsub" , "subscribe"]
+
+  wis2box-auth:
+    container_name: minio-test-wis2box-auth
+    restart: always
+    image: ghcr.io/world-meteorological-organization/wis2box-auth:1.2.0
+    env_file:
+      - test.env
+    volumes:
+      - /tmp:/data/wis2box:rw
+    
+  mosquitto:
+    container_name: minio-test-wis2box-broker
+    restart: always
+    image: ghcr.io/world-meteorological-organization/wis2box-broker:1.2.0
+    env_file:
+      - test.env
+    ports:
+      - "2883:1883"
+
+  elasticsearch:
+    container_name: minio-test-elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.6.2
+    environment:
+      - discovery.type=single-node
+      - discovery.seed_hosts=[]
+      - node.name=elasticsearch-01
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - cluster.name=es-wis2box
+      - xpack.security.enabled=false
+    mem_limit: 1.5g
+    memswap_limit: 1.5g
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200"]
+      interval: 5s
+      retries: 100
+
+volumes:
+  pg_data:
