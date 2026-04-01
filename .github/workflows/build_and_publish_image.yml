@@ -9,7 +9,6 @@ on:
   push:
     branches:
       - main
-      - build-test
     tags:
       - '*'
 
@@ -50,7 +49,6 @@ jobs:
             ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}
           tags: |
             type=raw,value=latest,enable={{is_default_branch}}
-            type=raw,value=build-test,enable=${{ github.ref == 'refs/heads/build-test' }}
             type=pep440,pattern={{version}}
 
       - name: Build and push
