@@ -28,7 +28,7 @@ jobs:
 
       - name: Build wis2box-minio:test Docker image
         run: |
-          docker build -t wis2box-minio:test -f Dockerfile.local --build-arg RELEASE=local-build-test .
+          docker build -t wis2box-minio:test -f Dockerfile --build-arg RELEASE=local-build-test .
 
       - name: Docker Compose up -d
         working-directory: wis2box_test
