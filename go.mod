@@ -11,7 +11,7 @@ require (
 	github.com/alecthomas/participle v0.7.1
 	github.com/bcicen/jstream v1.0.1
 	github.com/beevik/ntp v1.4.3
-	github.com/buger/jsonparser v1.1.1
+	github.com/buger/jsonparser v1.1.2
 	github.com/cespare/xxhash/v2 v2.3.0
 	github.com/cheggaaa/pb v1.0.29
 	github.com/coredns/coredns v1.14.2
