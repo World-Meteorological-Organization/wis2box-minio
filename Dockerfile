@@ -49,7 +49,9 @@ COPY --from=build /usr/bin/curl /usr/bin/curl
 #COPY --from=build /go/bin/mc /usr/bin/mc
 COPY CREDITS /licenses/CREDITS
 COPY LICENSE /licenses/LICENSE
+
 COPY dockerscripts/docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
+RUN chmod +x /usr/bin/docker-entrypoint.sh
 
 EXPOSE 9000
 VOLUME ["/data"]

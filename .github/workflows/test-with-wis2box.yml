@@ -26,14 +26,9 @@ jobs:
           python3 -m pip install --upgrade pip
           pip3 install -r requirements.txt
 
-
       - name: Build wis2box-minio:test Docker image
         run: |
           docker build -t wis2box-minio:test -f Dockerfile --build-arg RELEASE=local-build-test .
-
-      - name: Debug entrypoint permissions and line endings
-        run: |
-          docker run --rm --entrypoint /bin/sh wis2box-minio:test -c 'ls -l /usr/bin/docker-entrypoint.sh && file /usr/bin/docker-entrypoint.sh && head -5 /usr/bin/docker-entrypoint.sh'
 
       - name: Docker Compose up -d
         working-directory: wis2box_test
