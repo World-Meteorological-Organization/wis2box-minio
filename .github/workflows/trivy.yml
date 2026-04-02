@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Build wis2box-minio:test Docker image
         run: |
-          docker build -t wis2box-minio:test -f Dockerfile.local --build-arg RELEASE=local-build-test .
+          docker build -t wis2box-minio:test -f Dockerfile --build-arg RELEASE=local-build-test .
       - name: Run Trivy vulnerability scanner on wis2box-minio image
         if: always()
         uses: aquasecurity/trivy-action@0.35.0
