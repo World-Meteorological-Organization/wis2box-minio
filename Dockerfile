@@ -1,3 +1,4 @@
+
 FROM golang:1.25-alpine as build
 
 ARG TARGETARCH
@@ -14,8 +15,12 @@ RUN apk add -U --no-cache ca-certificates git
 ADD https://github.com/moparisthebest/static-curl/releases/download/v8.17.0/curl-amd64 /usr/bin/curl
 RUN chmod +x /usr/bin/curl
 
-# Copy source code
-COPY . /src
+# Copy go mod and sum files first for better caching and dependency management
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy the rest of the source code
+COPY . .
 
 # Build minio binary with version info
 RUN go build -ldflags "$(go run buildscripts/gen-ldflags.go)" -o /go/bin/minio ./
