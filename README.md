@@ -1,12 +1,14 @@
 # wis2box-minio
 
-This is a fork of the MinIO source-code that is archived at github.com/minio/minio. The source code is used to build a MinIO image for the WIS2BOX project. 
+This is a detached fork of the original MinIO source-code that is archived at https://github.com/minio/minio
 
-Note that wis2box is not affiliated with MinIO, and this repository is maintained independently for the purpose of building a custom MinIO image for the WIS2BOX project. The WIS2BOX project is a non-commercial initiative, aimed to provide a low-barrier, open-source solution to help accelerate WIS2 implementations in support of GBON and the WMO unified data policy.
+The source code is used to build a MinIO image for the [WIS2BOX project](https://community.wmo.int/site/knowledge-hub/programmes-and-initiatives/wmo-information-system-wis/wis2box)
 
-This fork is originally based of the tag=RELEASE.2024-08-03T04-33-23Z, which was the version of minio include in wis2box-1.2.0. 
+**Note that wis2box is not affiliated with MinIO, and this repository is maintained independently for the purpose of building a custom MinIO image for the WIS2BOX project. The WIS2BOX project is a non-commercial initiative, aimed to provide a low-barrier, open-source solution to help accelerate WIS2 implementations in support of GBON and the WMO unified data policy.**
 
-wis2box-minio uses GNU Affero General Public License to match the license of the original MinIO source code. If you want to use this code, please make sure to comply with the terms of the license.
+This fork is originally based of the tag=RELEASE.2024-08-03T04-33-23Z, which was the version of minio included in wis2box-1.2.0. 
+
+**wis2box-minio uses GNU Affero General Public License to match the license of the original MinIO source code. If you want to use this code, please make sure to comply with the terms of the license.**
 
 The image can be built locally with the following command:
 
