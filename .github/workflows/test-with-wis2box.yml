@@ -11,7 +11,7 @@ jobs:
       - uses: actions/setup-python@v2
         name: setup Python
         with:
-          python-version: 3.8
+          python-version: "3.12"
 
       - name: prepare ssh-keys for MinIO sftp 🔧
         working-directory: wis2box_test

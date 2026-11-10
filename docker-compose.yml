@@ -1,6 +1,6 @@
 services:
   go-dev:
-    image: golang:1.25-alpine
+    image: golang:1.27-alpine
     working_dir: /workspace
     volumes:
       - ./:/workspace

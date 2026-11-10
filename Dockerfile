@@ -1,5 +1,5 @@
 
-FROM golang:1.25-alpine as build
+FROM golang:1.27-alpine as build
 
 ARG TARGETARCH
 ARG RELEASE
@@ -12,7 +12,7 @@ WORKDIR /src
 RUN apk add -U --no-cache ca-certificates git
 
 # Download static Linux curl binary
-ADD https://github.com/moparisthebest/static-curl/releases/download/v8.17.0/curl-amd64 /usr/bin/curl
+ADD https://github.com/moparisthebest/static-curl/releases/download/v8.21.0/curl-amd64 /usr/bin/curl
 RUN chmod +x /usr/bin/curl
 
 # Copy go mod and sum files first for better caching and dependency management
